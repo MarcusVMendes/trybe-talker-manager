@@ -2,6 +2,9 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const fs = require('fs/promises');
 const getTalkers = require('./helper/data');
+const authEmail = require('./middleware/authEmail');
+const authPassword = require('./middleware/authPassword');
+const token = require('./middleware/tokenGenerator');
 
 const app = express();
 app.use(bodyParser.json());
@@ -24,6 +27,7 @@ app.get('/talker', async (_req, res, _next) => {
   return res.status(HTTP_OK_STATUS).json(talkers);
 });
 
+// Requisito 2
 app.get('/talker/:id', async (req, res) => {
   const { id } = req.params;
   const response = await getTalkers();
@@ -36,6 +40,10 @@ app.get('/talker/:id', async (req, res) => {
 
   return res.status(HTTP_OK_STATUS).json(data);
 });
+
+// Requisito 3
+
+app.post('/login', authEmail, authPassword, token);
 
 app.listen(PORT, () => {
   console.log('Online');
