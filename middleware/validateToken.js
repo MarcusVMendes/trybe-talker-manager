@@ -1,5 +1,5 @@
 module.exports = (req, res, next) => {
-  const { token } = req.headers;
+  const token = req.headers.authorization;
   console.log(token);
   if (!token) {
     return res.status(401).json({
@@ -7,7 +7,7 @@ module.exports = (req, res, next) => {
     });
   }
 
-  if (token.lenght < 16) {
+  if (token.length !== 16) {
     return res.status(401).json({
       message: 'Token inválido',
     });

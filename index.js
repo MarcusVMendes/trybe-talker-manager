@@ -8,7 +8,13 @@ const token = require('./middleware/tokenGenerator');
 const validateToken = require('./middleware/validateToken');
 const validateName = require('./middleware/validateName');
 const validateAge = require('./middleware/validateAge');
-const validateTalk = require('./middleware/validateTalk');
+// const validateTalk = require('./middleware/validateTalk');
+const {
+  validateTalk,
+  validateWatchedAt,
+  validateRate,
+} = require('./middleware/validateTalk');
+const registerTalker = require('./middleware/registerTalker');
 
 const app = express();
 app.use(bodyParser.json());
@@ -51,7 +57,16 @@ app.post('/login', authEmail, authPassword, token);
 
 // Requisito 4
 
-app.post('/talker', validateToken, validateName, validateAge, validateTalk);
+app.post(
+  '/talker',
+  validateToken,
+  validateName,
+  validateAge,
+  validateTalk,
+  validateWatchedAt,
+  validateRate,
+  registerTalker,
+);
 
 app.listen(PORT, () => {
   console.log('Online');
