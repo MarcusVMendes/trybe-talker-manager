@@ -15,7 +15,9 @@ const registerTalker = (req, res) => {
     talk,
   };
 
-  writeFile(newTalker);
+  const newTalkersData = [...data(), newTalker];
+  console.log(newTalkersData);
+  writeFile(newTalkersData);
 
   return res.status(201).json(newTalker);
 };
