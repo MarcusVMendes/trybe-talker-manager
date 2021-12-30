@@ -8,7 +8,7 @@ const token = require('./middleware/tokenGenerator');
 const validateToken = require('./middleware/validateToken');
 const validateName = require('./middleware/validateName');
 const validateAge = require('./middleware/validateAge');
-// const validateTalk = require('./middleware/validateTalk');
+const editTalker = require('./middleware/editTalker');
 const {
   validateTalk,
   validateWatchedAt,
@@ -66,6 +66,19 @@ app.post(
   validateWatchedAt,
   validateRate,
   registerTalker,
+);
+
+// Requisito 5
+
+app.put(
+  '/talker/:id',
+  validateToken,
+  validateName,
+  validateAge,
+  validateTalk,
+  validateWatchedAt,
+  validateRate,
+  editTalker,
 );
 
 app.listen(PORT, () => {
