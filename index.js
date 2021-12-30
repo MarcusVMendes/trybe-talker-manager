@@ -5,6 +5,10 @@ const getTalkers = require('./helper/data');
 const authEmail = require('./middleware/authEmail');
 const authPassword = require('./middleware/authPassword');
 const token = require('./middleware/tokenGenerator');
+const validateToken = require('./middleware/validateToken');
+const validateName = require('./middleware/validateName');
+const validateAge = require('./middleware/validateAge');
+const validateTalk = require('./middleware/validateTalk');
 
 const app = express();
 app.use(bodyParser.json());
@@ -44,6 +48,10 @@ app.get('/talker/:id', async (req, res) => {
 // Requisito 3
 
 app.post('/login', authEmail, authPassword, token);
+
+// Requisito 4
+
+app.post('/talker', validateToken, validateName, validateAge, validateTalk);
 
 app.listen(PORT, () => {
   console.log('Online');
