@@ -5,7 +5,8 @@ const writeFile = (newObject) =>
   fs.writeFileSync('./talker.json', JSON.stringify(newObject));
 
 const editTalker = (req, res) => {
-  const { id } = req.params;
+  let { id } = req.params;
+  id = Number(id);
   const { name, age, talk } = req.body;
   const talkers = data();
 
@@ -20,8 +21,8 @@ const editTalker = (req, res) => {
   const talkerIndex = talkers.findIndex((talker) => talker.id === Number(id));
   talkers[talkerIndex] = requestedTalker;
   writeFile(talkers);
-
-  return res.status(201).json(requestedTalker);
+  console.log(talkers);
+  return res.status(200).json(requestedTalker);
 };
 
 module.exports = editTalker;

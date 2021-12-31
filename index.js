@@ -1,6 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const fs = require('fs/promises');
+const fs = require('fs');
 const getTalkers = require('./helper/data');
 const authEmail = require('./middleware/authEmail');
 const authPassword = require('./middleware/authPassword');
@@ -29,7 +29,7 @@ app.get('/', (_request, response) => {
 
 // Requisito 1
 app.get('/talker', async (_req, res, _next) => {
-  const talkers = JSON.parse(await fs.readFile('./talker.json', 'utf-8'));
+  const talkers = JSON.parse(await fs.readFileSync('./talker.json', 'utf-8'));
 
   if (!talkers) {
     return res.status(HTTP_OK_STATUS).json([]);
@@ -75,11 +75,26 @@ app.put(
   validateToken,
   validateName,
   validateAge,
-  validateTalk,
   validateWatchedAt,
   validateRate,
+  validateTalk,
   editTalker,
 );
+
+// Requisito 6
+
+app.delete('/talker/:id', validateToken, (req, res) => {
+  const { id } = req.params;
+  const data = fs.readFileSync('./talker.json');
+  const talkers = JSON.parse(data);
+  const talkerIndex = talkers.findIndex((talker) => talker.id === Number(id));
+  talkers.splice(talkerIndex, 1);
+  console.log(talkers);
+  fs.writeFileSync('./talker.json', JSON.parse(talkers));
+  return res
+    .status(200)
+    .json({ message: 'Pessoa palestrante deletada com sucesso' });
+});
 
 app.listen(PORT, () => {
   console.log('Online');
