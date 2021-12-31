@@ -12,9 +12,9 @@ const editTalker = (req, res) => {
 
   // let requestedTalker = talkers.find((user) => user.id === Number(id));
   const requestedTalker = {
-    id,
     name,
     age,
+    id,
     talk,
   };
 

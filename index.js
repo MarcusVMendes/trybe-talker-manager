@@ -75,9 +75,9 @@ app.put(
   validateToken,
   validateName,
   validateAge,
+  validateTalk,
   validateWatchedAt,
   validateRate,
-  validateTalk,
   editTalker,
 );
 
@@ -89,7 +89,6 @@ app.delete('/talker/:id', validateToken, (req, res) => {
   const talkers = JSON.parse(data);
   const talkerIndex = talkers.findIndex((talker) => talker.id === Number(id));
   talkers.splice(talkerIndex, 1);
-  console.log(talkers);
   fs.writeFileSync('./talker.json', JSON.stringify(talkers));
   return res
     .status(200)
