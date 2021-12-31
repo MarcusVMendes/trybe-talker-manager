@@ -90,7 +90,7 @@ app.delete('/talker/:id', validateToken, (req, res) => {
   const talkerIndex = talkers.findIndex((talker) => talker.id === Number(id));
   talkers.splice(talkerIndex, 1);
   console.log(talkers);
-  fs.writeFileSync('./talker.json', JSON.parse(talkers));
+  fs.writeFileSync('./talker.json', JSON.stringify(talkers));
   return res
     .status(200)
     .json({ message: 'Pessoa palestrante deletada com sucesso' });
